@@ -19,7 +19,7 @@ This application simplifies meal preparation by delivering personalized cooking 
 
 ## Dataset
 
-The dataset used in this project was generated using ChatGPT and contains 182 recipe records. It provides comprehensive details about various dishes and is structured in the following format:
+The dataset used in this project conatins comprehensive details about various dishes and is structured in the following format:
 
 | Column Name       | Description                                                                                 |
 |-------------------|---------------------------------------------------------------------------------------------|
@@ -45,25 +45,125 @@ cook_time: 40 minutes
 instructions: Heat olive oil in a large pan over medium heat. Add finely chopped onions, carrots, and celery. Cook for 5-7 minutes until softened. Add minced beef and cook until browned. Pour in canned tomatoes, beef broth, and Italian herbs. Simmer uncovered for 30-40 minutes. Stir occasionally and season with salt and pepper. Serve over cooked spaghetti and garnish with fresh basil.
 ```
 
-## Technoligies
+The dataset was generated using ChatGPT and contain 182 records. It serves as the foundataion for the Cook Assistant's recipes recommendataions and instructional support.
 
-* [Minisearch](https://github.com/alexeygrigorev/minisearch) - for full-text-search
-* OpenAI as an LLM
-* Flask as the API interface (see [Background](#background)) - for more info
+You can find in [`data/data.csv`](data/data.csv)
 
-## Running it with Docker
+## Technologies
 
-The easiest way to run this application is with docker:
+* Python 3.12 - Core programming language.
+* Docker & Docker Compose - For containerization and service orchestration.
+* [Minisearch](https://github.com/alexeygrigorev/minisearch) - Full-text search engine.
+* OpenAI - Leveraged for large language model (LLM) capabilities.
+* Flask & Streamlit - API and user interface (more details in the [Background](#background)).
+* Grafana - Monitoring and visualization tool.
+* PostgreSQL - Backend database integrated with Grafana for data storage and management.
+
+
+## Preparation
+
+1. Set Up OpenAI API Key
+
+    Since this project uses OpenAI, you'll need to provide an API key.
+
+    Install direnv to manage environment variables. For Ubuntu users, run:
+    ```bash
+    sudo apt install direnv
+    ```
+
+    Then, add the following line to your .bashrc:
+    ```bash
+    direnv hook bash >> ~/.bashrc
+    ```
+
+2. Copy the `.envrc_template` file to a new file named `.envrc`:
+    ```bash
+    cp .envrc_template .envrc
+    ```
+
+3. Insert your OpenAI API key into the `.envrc` file. (It's recommended to create a new OpenAI project and generate a separate key for this application.)
+
+
+4. Run the following command to load the key into your environment:
+
+    ```bash
+    direnv allow
+    ```
+
+## Running the application
+
+### Database & Dashbord Configuration
+
+Before starting the application for the first time, the database needs to be initialized.
+
+1. Start the PostgreSQL service by running:
+    ```bash
+    docker-compose up postgres
+    ```
+
+2. Next, run the `init_database.py` script to initialize the database and dashboard:
+    ```bash
+    pipenv run python init_database.py
+    ```
+
+3. To check the contents of the database, you can use pgcli (which is already installed with pipenv):
+    ```bash
+    pipenv run pgcli -h localhost -U your_username -d cook_assistant -W
+    ```
+
+4. You can view the schema by using the `\d` command within `pgcli`:
+    ```bash
+    \d conversations;
+    ```
+
+5. To query the data in the table, run:
+    ```bash
+    select * from conversations;
+    ```
+
+## Running it with Docker Compose
+
+The easiest way to run this application is with `docker compose`:
 
 ```bash
-docker-compose up
+docker compose up
 ```
 
-If you need to change something in the dockerfile and test it quickly, you can use the following commands:
+## Running locally
+
+To run the application locally, start only PostgreSQL and Grafana with the following command:
+```bash
+docker compose up postgres grafana
+```
+
+If you previously launched all applications using `docker-compose up`, you'll need to stop the running apps first:
+```bash
+docker compose stop flask_app streamlit_app
+```
+
+Next, run the app on your host machine:
+```bash
+pipenv shell
+
+cd src
+
+python flask_app.py
+```
+
+
+## Running with Docker (without compose)
+
+Sometimes you might want to run the application in Docker without Docker Compose, e.g., for debugging purposes if you need to change something in the dockerfile and test it quickly.
+
+First, prepare the environment by running Docker Compose as in the previous section.
+
+Next, build the image:
 
 ```bash
 docker build -t cooking-assistant .
 ```
+
+And run it:
 
 ```bash
 docker run -it --rm \
@@ -75,40 +175,37 @@ docker run -it --rm \
     cooking-assistant
 ```
 
-## Running locally
-### Installing the dependencies
-
-If you don't use docker and want to run locally, you need to manually prepare the environment and install all the dependencies.
-
-We use `pipenv` for managing dependencies and Python 3.12.
-
-Make sure you have pipenv installed:
-
-```bash
-pipenv install --dev
-```
-
-### Running the application
-
-For running the application locally, do this:
-
-```bash
-pipenv run python app.py
-```
-
-## Preparing the applicaton
-
-Before we can use the app, we need to initialize the database.
-
-We can do it by running the [`db_prep.py`](src/db_prep.py) script;
-
-```bash
-pipenv run python db_prep.py
-```
-
 ## Using the application
 
-First, you need to start the application either with docker-compose or locally.
+When the application is running, we can start using it.
+
+### CLI
+
+We built an interactive CLI application using [questionary](https://questionary.readthedocs.io/en/stable/).
+
+To start it, run:
+
+```bash
+pipenv run python cli.py
+```
+
+You can also make it randomly select a question from our [ground truth dataset](data/ground-truth-retrieval.csv):
+
+```bash
+pipenv run python cli.py --random
+```
+
+### Using `requests`:
+
+When the application is running, you can use [requests](https://requests.readthedocs.io/en/latest/) to send questions—use [test.py](test.py) for testing it:
+
+```bash
+pipenv run python test.py
+```
+
+### CURL
+
+You can also use `curl` for interacting with the API:
 
 When it's running, let's test it:
 
@@ -155,51 +252,113 @@ After sending it, you'll receive the acknowledgement:
 }
 ```
 
-Alternatively, you can use [test.py](test.py) for testing it:
+### Streamlit
+
+To get started `Streamlit` app, activate your environment and navigate to the src directory:
 
 ```bash
-pipenv run python test.py
+pipenv shell
+
+cd src
 ```
 
-### Misc
+To run the simple `Streamlit` app, use the following command:
+```bash
+streamlit run streamlit_app.py
+```
 
-Running jupyter notebook for experiments:
+For the interactive Streamlit demo, execute:
+```bash
+streamlit run streamlit_demo.py
+```
+
+Your app will be accessible at [`localhost:8501`](http://localhost:8501).
+
+## Code Structure
+
+The codebase is organized into various modules, each with a specific role in the application. Below is an overview of the key files and their functionality.
+
+### Source Code (`src` folder)
+
+`flask_app.py`:
+The main entry point of the Flask API, responsible for serving the backend of the application.
+
+`streamlit_app.py`:
+The UI for the application, built using Streamlit, providing an interactive interface.
+
+`rag.py`:
+Contains the RAG (Retriever-Augmented Generation) logic used for retrieving data and constructing prompts for the application.
+
+`ingest.py`:
+Handles the process of loading data into the knowledge base, crucial for populating the backend data.
+
+`minsearch.py`:
+An in-memory search engine that enables efficient and fast data retrieval from the knowledge base.
+
+`db.py`:
+Includes the logic for logging requests and responses to a PostgreSQL database, ensuring proper tracking of interactions.
+
+`db_prep.py`:
+A script used for initializing the PostgreSQL database, preparing it for data storage.
+
+#### Root Directory Files
+
+`test.py`:
+A utility script for selecting random questions, used for testing the application's logic and performance.
+
+`cli.py`:
+Provides an interactive Command-Line Interface (CLI) for interacting with the application.
+
+`init_database.py` and `init_dashboard`:
+Defines a Prefect flow that orchestrates services such as PostgreSQL and Grafana, streamlining the initialization process for the database and dashboard setup for the application.
+
+
+## Interface
+
+We utilize Flask to serve the application as an API, and Streamlit for building the user interface (UI).
+Refer to the ["Running the Application"](#running-the-application) section for examples on interacting with both the API and UI.
+
+Streamlit provides a more interactive interface for users to access the application's functionalities through a user-friendly web interface. This is managed via streamlit_app.py.
+
+## Ingestion
+
+The ingestion logic is handled in [`ingest.py`](src/ingest.py).
+Since the application uses minsearch, an in-memory database for the knowledge base, the ingestion script runs automatically at startup when [`rag.py`](src/rag.py) is imported.
+
+
+## Experiments
+
+We use Jupyter notebooks for conducting experiments, which are located in the notebooks folder.
+
+To start Jupyter, run the following commands:
 
 ```bash
 cd notebooks
 pipenv run jupyter notebook
 ```
 
-## Interface
+The available notebooks include:
 
-We use Flask for serving the application as API.
+[`data-preparation.ipynb`](notebooks/data-preparation.ipynb):Cleans the data generated from ChatGPT and prepares it for further use.
+[`rag-test.ipynb`](notebooks/rag-test.ipynb): Demonstrates the RAG flow and evaluates the system's performance.
+[`evaluation-data-generation.ipynb`](notebooks/evaluation-data-generation.ipynb): Generates the ground truth dataset for retrieval evaluation.
+[`hybrid-search`](notebooks/hybrid-search.ipynb):Explores and tests hybrid search methods to assess their performance and efficiency.
 
-Refer to ["Running the Application" section](#running-the-application) for more detail.
 
+## Retrieval Evaluation
 
-## Ingestion
+The initial approach using minisearch without any boosting yielded the following metrics:
 
-The ingestion script is in [src/ingest.py](src/ingest.py) and it's run on the startup of the app (in [src/rag.py](src/rag.py))
+* Hit Rate: 86%
+* Mean Reciprocal Rank (MRR): 71%
 
-## Evaluation
+With enhancements through improved boosting, the metrics were:
 
-For the code for evaluating the system, you can check the [notebooks/rag-test.ipynb](notebooks/rag-test.ipynb) notebook.
-
-We generated the ground truth dataset using this notebook: [notebooks/evaluation-data-generation.ipynb](notebooks/evaluation-data-generation.ipynb)
-
-## Retrieval
-
-The basic approach - using minisearch without any boosting - gave the following metrics:
-
-* hit_rate: 86%
-* MRR: 71%
-
-The improved version (with better boosting):
-
-* hit_rate: 87%
+* Hit Rate: 87%
 * MRR: 74%
 
-The best boosting parameters:
+The optimal boosting parameters were determined using [`hyperopt`](https://hyperopt.github.io/hyperopt/)   and are as follows:
+
 ```python
 boost = {
     'exercise_name': 2.31984897428916,
@@ -212,8 +371,19 @@ boost = {
     }
 ```
 
+We also tested hybrid search, which resulted in:
 
-## RAG flow
+* Hit Rate: 83%
+* MRR: 74%
+
+After applying reranking with Reciprocal Rank Fusion (RRF), the metrics improved to:
+
+* Hit Rate: 85%
+* MRR: 75%
+
+Given that the performance was comparable across these methods, we opted to continue using `minisearch`.
+
+## RAG flow Evaluation
 
 We used the LLM-as-a-Judge metric to evaluate the quality of our RAG flow
 
@@ -224,3 +394,43 @@ For gtp-4o-mini, among 910 records, we had:
 * 12 (1%) IRRELEVANT
 
 ## Monitoring
+
+We use Grafana for monitoring the application.
+
+It's accessible at [`localhost:3000`](http://localhost:3000):
+
+* Login: "admin"
+* Password: "admin"
+
+### Dashboards
+
+The monitoring dashboard contains several panels:
+
+1. Last 5 Conversations (Table): Displays a table showing the five most recent conversations, including details such as the question, answer, relevance, and timestamp. This panel helps monitor recent interactions with users.
+2. +1/-1 (Pie Chart): A pie chart that visualizes the feedback from users, showing the count of positive (thumbs up) and negative (thumbs down) feedback received. This panel helps track user satisfaction.
+3. Relevancy (Gauge): A gauge chart representing the relevance of the responses provided during conversations. The chart categorizes relevance and indicates thresholds using different colors to highlight varying levels of response quality.
+4. OpenAI Cost (Time Series): A time series line chart depicting the cost associated with OpenAI usage over time. This panel helps monitor and analyze the expenditure linked to the AI model's usage.
+5. Tokens (Time Series): Another time series chart that tracks the number of tokens used in conversations over time. This helps to understand the usage patterns and the volume of data processed.
+6. Model Used (Bar Chart): A bar chart displaying the count of conversations based on the different models used. This panel provides insights into which AI models are most frequently used.
+7. Response Time (Time Series): A time series chart showing the response time of conversations over time. This panel is useful for identifying performance issues and ensuring the system's responsiveness.
+
+### Setting up Grafana
+
+All Grafana configurations are in the grafana folder:
+
+* `init.py` - for initializing the datasource and the dashboard.
+* `dashboard.json` - the actual dashboard (taken from LLM Zoomcamp without changes).
+
+To initialize the dashboard, first ensure Grafana is running (it starts automatically when you do docker-compose up).
+
+Then run:
+```bash
+pipenv run python init_dashboard.py
+```
+
+Then go to [`localhost:3000`](http://localhost:3000):
+
+* Login: "admin"
+* Password: "admin"
+
+When prompted, keep "admin" as the new password.
