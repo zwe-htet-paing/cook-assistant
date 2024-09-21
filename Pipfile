@@ -15,6 +15,7 @@ sentence-transformers = "*"
 elasticsearch = "*"
 numpy = "*"
 streamlit = "*"
+prefect = "*"
 
 [dev-packages]
 tqdm = "*"
