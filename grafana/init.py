@@ -4,11 +4,11 @@ import requests
 
 from dotenv import load_dotenv
 
-
 load_dotenv()
 
-
-GRAFANA_URL = "http://localhost:3000"
+GRAFANA_HOST = os.getenv("GRAFANA_HOST")
+GRAFANA_PORT = os.getenv("GRAFANA_PORT")
+GRAFANA_URL = f"http://{GRAFANA_HOST}:{GRAFANA_PORT}"
 
 GRAFANA_USER = os.getenv("GRAFANA_ADMIN_USER")
 GRAFANA_PASSWORD = os.getenv("GRAFANA_ADMIN_PASSWORD")
@@ -121,7 +121,7 @@ def create_dashboard(api_key, datasource_uid):
         "Content-Type": "application/json",
     }
 
-    dashboard_file = "dashboard.json"
+    dashboard_file = "grafana/dashboard.json"
 
     try:
         with open(dashboard_file, "r") as f:
@@ -193,4 +193,6 @@ def main():
 
 
 if __name__ == "__main__":
+    print("Initializing Grafana dashboard...")
     main()
+    print("Grafana dashboard initialized.")
