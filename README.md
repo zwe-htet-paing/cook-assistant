@@ -460,7 +460,18 @@ In our case, we can send questions to http://localhost:5000/question.
 
 For more information, visit the [`official Flask documentation`](https://flask.palletsprojects.com/en/3.0.x/).
 
+### Prefect
+
+In addition, we utilize Prefect for orchestrating our workflows. Prefect allows us to define, schedule, and monitor data pipelines, ensuring that our tasks run reliably and efficiently. It provides a user-friendly interface for managing workflows and handling task dependencies.
+
+For more details, check out the official [`Prefect documentation`](https://docs.prefect.io/3.0/get-started/index).
+
 
 ## Acknowledgements
 
 This project was made possible by the insights and skills gained from [LLM-Zoomcamp](https://github.com/DataTalksClub/llm-zoomcamp) and the concept of Retriever-Augmented Generation (RAG). A special thanks to the LLM-Zoomcamp team for their valuable resources and guidance on working with large language models and RAG techniques.
+
+## References
+
+* [llm-zoomcamp](https://github.com/DataTalksClub/llm-zoomcamp)
+* [fitness-assistant](https://github.com/alexeygrigorev/fitness-assistant)
