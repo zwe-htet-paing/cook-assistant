@@ -1,4 +1,10 @@
-# Cooking Assistant - A Recipe RAG Application
+# Cook Assistant - A Recipe RAG Application
+
+<!-- ![image](images/cook-assistant-01.png) -->
+<div style="text-align: center;">
+  <img src="images/cook-assistant-01.png" alt="Cook-Assistant" width="600">
+</div>
+
 
 ## Problem Description
 
@@ -92,7 +98,7 @@ You can find in [`data/data.csv`](data/data.csv)
 
 ## Running the application
 
-### Database & Dashbord Configuration
+### Database Configuration
 
 Before starting the application for the first time, the database needs to be initialized.
 
@@ -138,17 +144,28 @@ docker compose up postgres grafana
 
 If you previously launched all applications using `docker-compose up`, you'll need to stop the running apps first:
 ```bash
-docker compose stop flask_app streamlit_app
+docker compose stop flask-app streamlit-app
 ```
 
-Next, run the app on your host machine:
+To get started app on your host machine, first activate your environment and navigate to the `src` directory:
 ```bash
 pipenv shell
 
 cd src
+```
 
+To run the `Flask` app, execute the following command:
+```bash
 python flask_app.py
 ```
+
+
+To launch the `Streamlit` chat app, use this command:
+```bash
+streamlit run streamlit_app.py
+```
+
+You can see streamlit chat app at: [`localhost:8501`](http://localhost:8501)
 
 
 ## Running with Docker (without compose)
@@ -186,13 +203,13 @@ We built an interactive CLI application using [questionary](https://questionary.
 To start it, run:
 
 ```bash
-pipenv run python cli.py
+pipenv run python demo_cli.py
 ```
 
 You can also make it randomly select a question from our [ground truth dataset](data/ground-truth-retrieval.csv):
 
 ```bash
-pipenv run python cli.py --random
+pipenv run python demo_cli.py --random
 ```
 
 ### Using `requests`:
@@ -225,7 +242,11 @@ curl -X POST \
 You will see something like the following in the response:
 
 ```json
-{'answer': 'After pouring the filling over the crust for the Lemon Bars, you should bake them until set, which typically takes about 30 minutes.', 'conversation_id': '9b99ab97-ddd4-4bf7-b759-7b1b1a9b93bc', 'question': 'After pouring the filling over the crust, how long should I bake the bars until they are set?'}
+{
+"answer": "After pouring the filling over the crust for the Lemon Bars, you should bake them until set, which typically takes about 30 minutes.", 
+"conversation_id": "9b99ab97-ddd4-4bf7-b759-7b1b1a9b93bc", 
+"question": "After pouring the filling over the crust, how long should I bake the bars until they are set?"
+}
 ```
 
 Sending feedback:
@@ -252,24 +273,13 @@ After sending it, you'll receive the acknowledgement:
 }
 ```
 
-### Streamlit
+### Streamlit Demo
 
-To get started `Streamlit` app, activate your environment and navigate to the src directory:
-
+To get started the simple `Streamlit` demo, use the following command:
 ```bash
 pipenv shell
 
-cd src
-```
-
-To run the simple `Streamlit` app, use the following command:
-```bash
-streamlit run streamlit_app.py
-```
-
-For the interactive Streamlit demo, execute:
-```bash
-streamlit run streamlit_demo.py
+streamlit run demo_streamlit.py
 ```
 
 Your app will be accessible at [`localhost:8501`](http://localhost:8501).
@@ -280,39 +290,31 @@ The codebase is organized into various modules, each with a specific role in the
 
 ### Source Code (`src` folder)
 
-`flask_app.py`:
-The main entry point of the Flask API, responsible for serving the backend of the application.
+* `flask_app.py`: The main entry point of the Flask API, responsible for serving the backend of the application.
 
-`streamlit_app.py`:
-The UI for the application, built using Streamlit, providing an interactive interface.
+* `streamlit_app.py`: The Chat UI for the application, built using Streamlit, providing an interactive interface.
 
-`rag.py`:
-Contains the RAG (Retriever-Augmented Generation) logic used for retrieving data and constructing prompts for the application.
+* `rag.py`: Contains the RAG (Retriever-Augmented Generation) logic used for retrieving data and constructing prompts for the application.
 
-`ingest.py`:
-Handles the process of loading data into the knowledge base, crucial for populating the backend data.
+* `ingest.py`: Handles the process of loading data into the knowledge base, crucial for populating the backend data.
 
-`minsearch.py`:
-An in-memory search engine that enables efficient and fast data retrieval from the knowledge base.
+* `minsearch.py`: An in-memory search engine that enables efficient and fast data retrieval from the knowledge base.
 
-`db.py`:
-Includes the logic for logging requests and responses to a PostgreSQL database, ensuring proper tracking of interactions.
+* `db.py`: Includes the logic for logging requests and responses to a PostgreSQL database, ensuring proper tracking of interactions.
 
-`db_prep.py`:
-A script used for initializing the PostgreSQL database, preparing it for data storage.
+* `db_prep.py`: A script used for initializing the PostgreSQL database, preparing it for data storage.
 
-#### Root Directory Files
+### Root Directory Files
 
-`test.py`:
-A utility script for selecting random questions, used for testing the application's logic and performance.
+* `test.py`: A utility script for selecting random questions, used for testing the application's logic and performance.
 
-`cli.py`:
-Provides an interactive Command-Line Interface (CLI) for interacting with the application.
+* `demo_cli.py`: Provides an interactive Command-Line Interface (CLI) for interacting with the application.
 
-`init_database.py` and `init_dashboard`:
-Defines a Prefect flow that orchestrates services such as PostgreSQL and Grafana, streamlining the initialization process for the database and dashboard setup for the application.
+* `demo_streamlit.py`: The simple UI for the application, built using Streamlit.
 
+* `init_database.py`: Prefect flow for initializing the PostgreSQL database.
 
+* `init_dashboard`: Prefect flow for setting up the Grafana dashboard.
 ## Interface
 
 We utilize Flask to serve the application as an API, and Streamlit for building the user interface (UI).
@@ -339,10 +341,10 @@ pipenv run jupyter notebook
 
 The available notebooks include:
 
-[`data-preparation.ipynb`](notebooks/data-preparation.ipynb):Cleans the data generated from ChatGPT and prepares it for further use.
-[`rag-test.ipynb`](notebooks/rag-test.ipynb): Demonstrates the RAG flow and evaluates the system's performance.
-[`evaluation-data-generation.ipynb`](notebooks/evaluation-data-generation.ipynb): Generates the ground truth dataset for retrieval evaluation.
-[`hybrid-search`](notebooks/hybrid-search.ipynb):Explores and tests hybrid search methods to assess their performance and efficiency.
+* [`data-preparation.ipynb`](notebooks/data-preparation.ipynb): Cleans the data generated from ChatGPT and prepares it for further use.
+* [`rag-test.ipynb`](notebooks/rag-test.ipynb): Demonstrates the RAG flow and evaluates the system's performance.
+* [`evaluation-data-generation.ipynb`](notebooks/evaluation-data-generation.ipynb): Generates the ground truth dataset for retrieval evaluation.
+* [`hybrid-search`](notebooks/hybrid-search.ipynb): Explores and tests hybrid search methods to assess their performance and efficiency.
 
 
 ## Retrieval Evaluation
