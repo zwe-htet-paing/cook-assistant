@@ -458,7 +458,7 @@ We use Flask for creating the API interface for our application. It's a web appl
 
 In our case, we can send questions to http://localhost:5000/question.
 
-For more information, visit the [`official Flask documentation`](https://flask.palletsprojects.com/en/3.0.x/).
+For more information, visit the official [`Flask documentation`](https://flask.palletsprojects.com/en/3.0.x/).
 
 ### Prefect
 
