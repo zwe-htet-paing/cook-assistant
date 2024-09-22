@@ -74,6 +74,8 @@ You can find in [`data/data.csv`](data/data.csv)
 
     Install direnv to manage environment variables. For Ubuntu users, run:
     ```bash
+    sudo apt update
+
     sudo apt install direnv
     ```
 
@@ -95,6 +97,18 @@ You can find in [`data/data.csv`](data/data.csv)
     ```bash
     direnv allow
     ```
+
+Next, install `pipenv` to manage your Python environments.
+
+```bash
+pip install pipenv
+```
+
+Once installed, you can install the app dependencies:
+
+```bash
+pipenv install --dev
+```
 
 ## Running the application
 
