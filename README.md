@@ -1,9 +1,9 @@
 # Cook Assistant - A Recipe RAG Application
 
 <!-- ![image](images/cook-assistant-01.png) -->
-<div style="text-align: center;">
-  <img src="images/cook-assistant-01.png" alt="Cook-Assistant" width="600">
-</div>
+<p align="center">
+  <img src="images/cook-assistant.png" alt="Cook-Assistant">
+</p>
 
 
 ## Problem Description
@@ -167,6 +167,9 @@ streamlit run streamlit_app.py
 
 You can see streamlit chat app at: [`localhost:8501`](http://localhost:8501)
 
+<p align="center">
+  <img src="images/streamlit-app.png" alt="Streamlit-app">
+</p>
 
 ## Running with Docker (without compose)
 
@@ -283,6 +286,10 @@ streamlit run demo_streamlit.py
 ```
 
 Your app will be accessible at [`localhost:8501`](http://localhost:8501).
+
+<p align="center">
+  <img src="images/streamlit-demo.png" alt="Streamlit-demo">
+</p>
 
 ## Code Structure
 
@@ -406,6 +413,10 @@ It's accessible at [`localhost:3000`](http://localhost:3000):
 
 ### Dashboards
 
+<p align="center">
+  <img src="images/dashboard.png" alt="Dashboard">
+</p>
+
 The monitoring dashboard contains several panels:
 
 1. Last 5 Conversations (Table): Displays a table showing the five most recent conversations, including details such as the question, answer, relevance, and timestamp. This panel helps monitor recent interactions with users.
@@ -436,3 +447,20 @@ Then go to [`localhost:3000`](http://localhost:3000):
 * Password: "admin"
 
 When prompted, keep "admin" as the new password.
+
+## Background
+
+Here we provide background on some tech not used in the course and links for further reading.
+
+### Flask
+
+We use Flask for creating the API interface for our application. It's a web application framework for Python: we can easily create an endpoint for asking questions and use web clients (like curl or requests) for communicating with it.
+
+In our case, we can send questions to http://localhost:5000/question.
+
+For more information, visit the [`official Flask documentation`](https://flask.palletsprojects.com/en/3.0.x/).
+
+
+## Acknowledgements
+
+This project was made possible by the insights and skills gained from [LLM-Zoomcamp](https://github.com/DataTalksClub/llm-zoomcamp) and the concept of Retriever-Augmented Generation (RAG). A special thanks to the LLM-Zoomcamp team for their valuable resources and guidance on working with large language models and RAG techniques.
