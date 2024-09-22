@@ -74,7 +74,7 @@ You can find in [`data/data.csv`](data/data.csv)
 * Docker & Docker Compose - For containerization and service orchestration.
 * [Minisearch](https://github.com/alexeygrigorev/minisearch) - Full-text search engine.
 * OpenAI - Leveraged for large language model (LLM) capabilities.
-* Flask & Streamlit - API and user interface.
+* Flask & Streamlit - API and user interface(more details in the [Background](#background)).
 * Grafana - Monitoring and visualization tool.
 * PostgreSQL - Backend database integrated with Grafana for data storage and management.
 
@@ -323,21 +323,21 @@ The codebase is organized into various modules, each with a specific role in the
 
 ### Source Code (`src` folder)
 
-* `flask_app.py` - The main entry point of the Flask API
-* `streamlit_app.py` - The interactive Chat UI for the application, built using Streamlit
-* `rag.py` - The main RAG logic for building the retrieving the data and building the prompt
-* `ingest.py` - Loading the data into the knowledge base
-* `minsearch.py` - An in-memory search engine
-* `db.py` - Includes the logic for logging requests and responses to a PostgreSQL database
-* `db_prep.py` - The script for initializing the database
+* `flask_app.py` - The main entry point of the Flask API.
+* `streamlit_app.py` - The interactive Chat UI for the application, built using Streamlit.
+* `rag.py` - The main RAG logic for building the retrieving the data and building the prompt.
+* `ingest.py` - Loading the data into the knowledge base.
+* `minsearch.py` - An in-memory search engine.
+* `db.py` - Includes the logic for logging requests and responses to a PostgreSQL database.
+* `db_prep.py` - The script for initializing the database.
 
 ### Root Directory Files
 
 * `test.py` - A script for selecting random questions for testing.
 * `demo_cli.py` - An interactive Command-Line Interface (CLI) for interacting with the application.
 * `demo_streamlit.py` - The simple UI for the application, built using Streamlit.
-* `init_database.py` - Script for initializing the PostgreSQL database.
-* `init_dashboard` - Script for setting up the Grafana dashboard.
+* `init_database.py` - The script for initializing the PostgreSQL database.
+* `init_dashboard` - The script for setting up the Grafana dashboard.
 
 ## Interface
 
@@ -446,6 +446,16 @@ The monitoring dashboard contains several panels:
 6. Model Used (Bar Chart): A bar chart displaying the count of conversations based on the different models used. This panel provides insights into which AI models are most frequently used.
 7. Response Time (Time Series): A time series chart showing the response time of conversations over time. This panel is useful for identifying performance issues and ensuring the system's responsiveness.
 
+## Background
+
+Here we provide background on some tech not used in the course and links for further reading.
+
+### Flask
+We use Flask for creating the API interface for our application. It's a web application framework for Python: we can easily create an endpoint for asking questions and use web clients (like curl or requests) for communicating with it.
+
+In our case, we can send questions to http://localhost:5000/question.
+
+For more information, visit the official [`Flask documentation`](https://flask.palletsprojects.com/en/3.0.x/).
 
 ## Acknowledgements
 
