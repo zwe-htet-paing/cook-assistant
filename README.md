@@ -323,38 +323,28 @@ The codebase is organized into various modules, each with a specific role in the
 
 ### Source Code (`src` folder)
 
-* `flask_app.py`: The main entry point of the Flask API, responsible for serving the backend of the application.
-
-* `streamlit_app.py`: The Chat UI for the application, built using Streamlit, providing an interactive interface.
-
-* `rag.py`: Contains the RAG (Retriever-Augmented Generation) logic used for retrieving data and constructing prompts for the application.
-
-* `ingest.py`: Handles the process of loading data into the knowledge base, crucial for populating the backend data.
-
-* `minsearch.py`: An in-memory search engine that enables efficient and fast data retrieval from the knowledge base.
-
-* `db.py`: Includes the logic for logging requests and responses to a PostgreSQL database, ensuring proper tracking of interactions.
-
-* `db_prep.py`: A script used for initializing the PostgreSQL database, preparing it for data storage.
+* `flask_app.py` - The main entry point of the Flask API
+* `streamlit_app.py` - The interactive Chat UI for the application, built using Streamlit
+* `rag.py` - The main RAG logic for building the retrieving the data and building the prompt
+* `ingest.py` - Loading the data into the knowledge base
+* `minsearch.py` - An in-memory search engine
+* `db.py` - Includes the logic for logging requests and responses to a PostgreSQL database
+* `db_prep.py` - The script for initializing the database
 
 ### Root Directory Files
 
-* `test.py`: A utility script for selecting random questions, used for testing the application's logic and performance.
-
-* `demo_cli.py`: Provides an interactive Command-Line Interface (CLI) for interacting with the application.
-
-* `demo_streamlit.py`: The simple UI for the application, built using Streamlit.
-
-* `init_database.py`: Script for initializing the PostgreSQL database.
-
-* `init_dashboard`: Script for setting up the Grafana dashboard.
+* `test.py` - A script for selecting random questions for testing.
+* `demo_cli.py` - An interactive Command-Line Interface (CLI) for interacting with the application.
+* `demo_streamlit.py` - The simple UI for the application, built using Streamlit.
+* `init_database.py` - Script for initializing the PostgreSQL database.
+* `init_dashboard` - Script for setting up the Grafana dashboard.
 
 ## Interface
 
 We utilize Flask to serve the application as an API, and Streamlit for building the user interface (UI).
 Refer to the ["Running the Application"](#running-the-application) section for examples on interacting with both the API and UI.
 
-Streamlit provides a more interactive interface for users to access the application's functionalities through a user-friendly web interface. This is managed via streamlit_app.py.
+Streamlit provides a more interactive interface for users to access the application's functionalities through a user-friendly web interface. This is managed via `streamlit_app.py`.
 
 ## Ingestion
 
@@ -457,11 +447,9 @@ The monitoring dashboard contains several panels:
 7. Response Time (Time Series): A time series chart showing the response time of conversations over time. This panel is useful for identifying performance issues and ensuring the system's responsiveness.
 
 
-
-
 ## Acknowledgements
 
-This project was made possible by the insights and skills gained from [LLM-Zoomcamp](https://github.com/DataTalksClub/llm-zoomcamp) and the concept of Retriever-Augmented Generation (RAG). A special thanks to Alexey Grigorev and the DataTalks team for their valuable resources and guidance on working with large language models and RAG techniques.
+This project was made possible by the insights and skills gained from [LLM-Zoomcamp](https://github.com/DataTalksClub/llm-zoomcamp) and the concept of Retriever-Augmented Generation (RAG). A special thanks to "Alexey Grigorev" and the "DataTalks" team for their valuable resources and guidance on working with large language models and RAG techniques.
 
 ## References
 
