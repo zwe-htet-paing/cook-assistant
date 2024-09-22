@@ -333,9 +333,9 @@ The codebase is organized into various modules, each with a specific role in the
 
 * `demo_streamlit.py`: The simple UI for the application, built using Streamlit.
 
-* `init_database.py`: Prefect flow for initializing the PostgreSQL database.
+* `init_database.py`: Script for initializing the PostgreSQL database.
 
-* `init_dashboard`: Prefect flow for setting up the Grafana dashboard.
+* `init_dashboard`: Script for setting up the Grafana dashboard.
 ## Interface
 
 We utilize Flask to serve the application as an API, and Streamlit for building the user interface (UI).
@@ -473,12 +473,6 @@ We use Flask for creating the API interface for our application. It's a web appl
 In our case, we can send questions to http://localhost:5000/question.
 
 For more information, visit the official [`Flask documentation`](https://flask.palletsprojects.com/en/3.0.x/).
-
-### Prefect
-
-In addition, we utilize Prefect for orchestrating our workflows. Prefect allows us to define, schedule, and monitor data pipelines, ensuring that our tasks run reliably and efficiently. It provides a user-friendly interface for managing workflows and handling task dependencies.
-
-For more details, check out the official [`Prefect documentation`](https://docs.prefect.io/3.0/get-started/index).
 
 
 ## Acknowledgements
