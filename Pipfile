@@ -11,11 +11,8 @@ flask = "*"
 psycopg2-binary = "*"
 python-dotenv = "*"
 gunicorn = "*"
-sentence-transformers = "*"
-elasticsearch = "*"
 numpy = "*"
 streamlit = "*"
-prefect = "*"
 
 [dev-packages]
 tqdm = "*"
