@@ -1,6 +1,5 @@
 # Cook Assistant - A Recipe RAG Application
 
-<!-- ![image](images/cook-assistant-01.png) -->
 <p align="center">
   <img src="images/cook-assistant.png" alt="Cook-Assistant">
 </p>
@@ -26,6 +25,7 @@ Many people find it difficult to get personalized and easy-to-use cooking help. 
 Cooking Assistant solves this problem by using a RAG-powered model to provide recipe recommendations, ingredient substitutions, and step-by-step instructions from a dataset of 182 recipes. It offers a simple, interactive solution that makes cooking easier and more efficient.
 
 ## Project Overview
+
 Cooking Assistant is a RAG application designed to assist users with their cooking needs.
 
 The main use cases include:
@@ -74,7 +74,7 @@ You can find in [`data/data.csv`](data/data.csv)
 * Docker & Docker Compose - For containerization and service orchestration.
 * [Minisearch](https://github.com/alexeygrigorev/minisearch) - Full-text search engine.
 * OpenAI - Leveraged for large language model (LLM) capabilities.
-* Flask & Streamlit - API and user interface (more details in the [Background](#background)).
+* Flask & Streamlit - API and user interface.
 * Grafana - Monitoring and visualization tool.
 * PostgreSQL - Backend database integrated with Grafana for data storage and management.
 
@@ -106,7 +106,6 @@ You can find in [`data/data.csv`](data/data.csv)
 
 
 4. Run the following command to load the key into your environment:
-
     ```bash
     direnv allow
     ```
@@ -186,7 +185,6 @@ To run the `Flask` app, execute the following command:
 python flask_app.py
 ```
 
-
 To launch the `Streamlit` chat app, use this command:
 ```bash
 streamlit run streamlit_app.py
@@ -214,7 +212,7 @@ And run it:
 
 ```bash
 docker run -it --rm \
-    --network="llm-rag-project_default" \
+    --network="cook-assistant_default" \
     --env-file=".env" \
     -e OPENAI_API_KEY=${OPENAI_API_KEY} \
     -e DATA_PATH="data/data.csv" \
@@ -226,9 +224,10 @@ docker run -it --rm \
 
 When the application is running, we can start using it.
 
+
 ### CLI
 
-We built an interactive CLI application using [questionary](https://questionary.readthedocs.io/en/stable/).
+Interactive CLI application using [questionary](https://questionary.readthedocs.io/en/stable/).
 
 To start it, run:
 
@@ -349,6 +348,7 @@ The codebase is organized into various modules, each with a specific role in the
 * `init_database.py`: Script for initializing the PostgreSQL database.
 
 * `init_dashboard`: Script for setting up the Grafana dashboard.
+
 ## Interface
 
 We utilize Flask to serve the application as an API, and Streamlit for building the user interface (UI).
@@ -397,13 +397,14 @@ The optimal boosting parameters were determined using [`hyperopt`](https://hyper
 
 ```python
 boost = {
-    'exercise_name': 2.31984897428916,
-    'type_of_activity': 1.4242161164765066,
-    'type_of_equipment': 0.8557405139948276,
-    'body_part': 0.1592615373833831,
-    'type': 1.7674132568449183,
-    'muscle_groups_activated': 2.8318029512403116,
-    'instructions': 0.018866767130518602
+    'recipe_name': 2.290315090834727,
+    'type_of_dish': 1.2413235584483393,
+    'main_ingredient': 0.7923264133676281,
+    'cuisine': 0.14584725698741952,
+    'cooking_method': 0.039267515269042486,
+    'prep_time': 97.16195429708318,
+    'cook_time': 86.54318555259674,
+    'instructions': 2.235829124458284
     }
 ```
 
@@ -433,6 +434,7 @@ For gtp-4o-mini, among 910 records, we had:
 
 We use Grafana for monitoring the application.
 
+
 It's accessible at [`localhost:3000`](http://localhost:3000):
 
 * Login: "admin"
@@ -454,43 +456,12 @@ The monitoring dashboard contains several panels:
 6. Model Used (Bar Chart): A bar chart displaying the count of conversations based on the different models used. This panel provides insights into which AI models are most frequently used.
 7. Response Time (Time Series): A time series chart showing the response time of conversations over time. This panel is useful for identifying performance issues and ensuring the system's responsiveness.
 
-### Setting up Grafana
 
-All Grafana configurations are in the grafana folder:
-
-* `init.py` - for initializing the datasource and the dashboard.
-* `dashboard.json` - the actual dashboard (taken from LLM Zoomcamp without changes).
-
-To initialize the dashboard, first ensure Grafana is running (it starts automatically when you do docker-compose up).
-
-Then run:
-```bash
-pipenv run python init_dashboard.py
-```
-
-Then go to [`localhost:3000`](http://localhost:3000):
-
-* Login: "admin"
-* Password: "admin"
-
-When prompted, keep "admin" as the new password.
-
-## Background
-
-Here we provide background on some tech not used in the course and links for further reading.
-
-### Flask
-
-We use Flask for creating the API interface for our application. It's a web application framework for Python: we can easily create an endpoint for asking questions and use web clients (like curl or requests) for communicating with it.
-
-In our case, we can send questions to http://localhost:5000/question.
-
-For more information, visit the official [`Flask documentation`](https://flask.palletsprojects.com/en/3.0.x/).
 
 
 ## Acknowledgements
 
-This project was made possible by the insights and skills gained from [LLM-Zoomcamp](https://github.com/DataTalksClub/llm-zoomcamp) and the concept of Retriever-Augmented Generation (RAG). A special thanks to the LLM-Zoomcamp team for their valuable resources and guidance on working with large language models and RAG techniques.
+This project was made possible by the insights and skills gained from [LLM-Zoomcamp](https://github.com/DataTalksClub/llm-zoomcamp) and the concept of Retriever-Augmented Generation (RAG). A special thanks to Alexey Grigorev and the DataTalks team for their valuable resources and guidance on working with large language models and RAG techniques.
 
 ## References
 
