@@ -5,6 +5,19 @@
   <img src="images/cook-assistant.png" alt="Cook-Assistant">
 </p>
 
+Managing recipes, ingredients, and cooking times can often feel overwhelming, especially without the guidance of a personal assistant in the kitchen.
+
+The `Cook Assistant` is a conversational AI designed to help users find recipes, learn about ingredients, and streamline the cooking process, making the experience both enjoyable and efficient.
+
+This project was developed as part of [LLM-Zoomcamp](https://github.com/DataTalksClub/llm-zoomcamp) – a free course focused on LLMs and Retriever-Augmented Generation (RAG).
+
+To see a demo of the project and learn how to run it on GitHub Codespaces, check out this video:
+
+<p align="left">
+  <a href="https://youtu.be/P-0bff34u4U">
+    <img src="images/thumbnail.png">
+  </a>
+</p>
 
 ## Problem Description
 
