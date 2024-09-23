@@ -1,6 +1,7 @@
 import uuid
 import streamlit as st
 from rag import rag
+import db
 
 def show_ui(prompt_to_user="How may I help you?"):
     if "messages" not in st.session_state:
@@ -55,6 +56,13 @@ def show_ui(prompt_to_user="How may I help you?"):
                     </div>
                 </div>
             """, unsafe_allow_html=True)
+            
+            # Save the conversation to the database
+            db.save_conversation(
+                conversation_id=response_id,
+                question=prompt,
+                answer_data=response
+            )
         
         
         # Add the assistant's response to the session state
